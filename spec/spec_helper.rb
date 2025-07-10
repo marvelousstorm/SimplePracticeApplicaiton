@@ -12,6 +12,31 @@
 # the additional setup, and require it from the spec files that actually need
 # it.
 #
+# spec/spec_helper.rb
+require 'webdrivers'
+require 'capybara/rspec'
+require 'selenium-webdriver'
+require 'yaml'
+
+
+# Load config based on ENV var or default
+env = ENV['TEST_ENV'] || 'stage'
+config_file = File.join(File.dirname(__FILE__), "../config/#{env}.yml")
+unless File.exist?(config_file)
+  raise "Config file not found for environment: #{env}"
+end
+CONFIG = YAML.load_file(config_file)
+# Configure Capybara
+Capybara.default_driver = :selenium_chrome
+Capybara.default_max_wait_time = CONFIG['wait_time']
+Capybara.app_host = CONFIG['base_url']
+
+puts "Environment: #{env}"
+puts "Base URL: #{CONFIG['base_url']}"
+
+RSpec.configure do |config|
+  # ... existing RSpec config here ...
+end
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
