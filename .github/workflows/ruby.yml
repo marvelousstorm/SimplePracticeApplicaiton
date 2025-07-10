@@ -48,6 +48,7 @@ jobs:
       - name: Parse suite
         id: parse
         run: |
+          eval $(ruby parse_suite.rb)
           echo "SUITES=$SUITES" >> $GITHUB_ENV
           echo "CONFIG_FILE=$CONFIG_FILE" >> $GITHUB_ENV
 

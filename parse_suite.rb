@@ -4,13 +4,10 @@ require 'yaml'
 suite_name = ENV['SUITE_NAME'] || 'smokeUI'
 env = ENV['ENV'] || 'prod'
 
-# Load YAML file
 suites_config = YAML.load_file('suites.yml')
 
-# ✅ Ensure structure is correct
-unless suites_config['suites']
-  raise "Missing top-level 'suites' key in suites.yml"
-end
+# Debug: Print loaded YAML
+puts "Loaded YAML: #{suites_config.inspect}"
 
 suite = suites_config['suites'][suite_name]
 
@@ -21,6 +18,11 @@ end
 spec_path = suite['spec']
 config_file = "config/#{env}.yml"
 
-# ✅ Final output (must be exact format for GitHub Actions)
+# Debug: Confirm extracted values
+puts "Parsed suite name: #{suite_name}"
+puts "Parsed spec path: #{spec_path}"
+puts "Parsed config file: #{config_file}"
+
+# Required by GitHub Actions eval
 puts "SUITES=#{spec_path}"
 puts "CONFIG_FILE=#{config_file}"
