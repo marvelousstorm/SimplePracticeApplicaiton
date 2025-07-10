@@ -1,16 +1,19 @@
 # parse_suite.rb
 require 'yaml'
 
+suite_name = ENV['SUITE_NAME'] || 'smokeUI'
 env = ENV['ENV'] || 'prod'
-suite = ENV['SUITE_NAME'] || 'smokeUI'
 
-suite_config = YAML.load_file("suites.yml")
-selected_suite = suite_config[suite]
+# Load YAML
+suites_config = YAML.load_file('suites.yml')
+suite = suites_config['suites'][suite_name]
 
-raise "Suite '#{suite}' not found" unless selected_suite
+unless suite && suite['spec']
+  raise "Suite '#{suite_name}' not found or missing 'spec'"
+end
 
-config_file = "config/#{env}.yml"
-spec_path = selected_suite['path']
+spec_path = suite['spec']
+config_file = "config/#{env}.yml" # optional: if you're using env config
 
 puts "SUITES=#{spec_path}"
 puts "CONFIG_FILE=#{config_file}"
