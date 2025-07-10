@@ -1,0 +1,68 @@
+name: Run Ruby Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      suite_name:
+        description: 'Suite to run'
+        required: true
+        default: 'smokeUI'
+        type: choice
+        options:
+          - smokeUI
+          - API
+      env:
+        description: 'Enviroment to run'
+        required: true
+        default: 'prod'
+        type: choice
+        options:
+          - prod
+          - stage
+  push:
+    branches:
+      - main
+
+env:
+  ENV: ${{ github.event.inputs.env || 'prod' }}
+  SUITE_NAME: ${{ github.event.inputs.suite_name || 'smokeUI' }}
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install
+
+      - name: Parse suite
+        id: parse
+        run: |
+          echo "SUITES=$SUITES" >> $GITHUB_ENV
+          echo "CONFIG_FILE=$CONFIG_FILE" >> $GITHUB_ENV
+
+      - name: Start app
+        run: npm start &
+    
+
+      - name: Run tests
+        run:  bundle exec rspec spec/${{ env.SUITE_NAME }} --tag env:${{ env.ENV }}
+
+      - name: Upload test artifact
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifacts
+          path: |
+            tmp/test-results
+            logs/

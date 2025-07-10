@@ -1,0 +1,4 @@
+configFile: "cypress.config-stage.js"
+suites:
+  smokeUI:
+    spec: "spec/login_spec.rb"
