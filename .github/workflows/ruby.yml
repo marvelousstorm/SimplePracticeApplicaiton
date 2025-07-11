@@ -24,7 +24,7 @@ on:
       - main
 
 jobs:
-  cypress-run:
+  ruby-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -46,18 +46,16 @@ jobs:
         env:
           SUITE_NAME: ${{ github.event.inputs.suite_name }}
           ENV: ${{ github.event.inputs.env }}
-        run: |
-          eval $(ruby parse_suite.rb)
-          echo "SUITES=$SUITES" >> $GITHUB_ENV
-          echo "CONFIG_FILE=$CONFIG_FILE" >> $GITHUB_ENV
+        run: ruby parse_suite.rb
+
+      - name: Start app
+        run: npm start &
 
       - name: Run tests
-        env:
-          SUITES: ${{ env.SUITES }}
-          ENV: ${{ github.event.inputs.env }}
         run: |
           echo "Running specs at: $SUITES"
-          echo "Using environment: $ENV"
+          echo "Using TEST_ENV: $TEST_ENV"
+          echo "Using config file: $CONFIG_FILE"
           bundle exec rspec $SUITES
 
       - name: Upload test artifacts

@@ -13,8 +13,8 @@ end
 spec_path = suite['spec']
 config_file = "config/#{env}.yml"
 
-# Write directly to GITHUB_ENV file for GitHub Actions
 File.open(ENV['GITHUB_ENV'], 'a') do |f|
   f.puts "SUITES=#{spec_path}"
   f.puts "CONFIG_FILE=#{config_file}"
+  f.puts "TEST_ENV=#{env}"              # <-- Add this line
 end
