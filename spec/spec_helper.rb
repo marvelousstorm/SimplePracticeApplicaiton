@@ -19,7 +19,7 @@ require 'selenium-webdriver'
 require 'yaml'
 require 'tmpdir'
 
-
+Dir[File.join(__dir__, 'support', '**', '*.rb')].sort.each { |file| require file }
 # Load config based on ENV var or default
 env = ENV['TEST_ENV'] || 'stage'
 config_file = File.join(File.dirname(__FILE__), "../config/#{env}.yml")
@@ -30,7 +30,7 @@ CONFIG = YAML.load_file(config_file)
 # Configure Capybara
 Capybara.register_driver :chrome_with_unique_profile do |app|
   options = Selenium::WebDriver::Chrome::Options.new
-  options.add_argument('--headless')      # Keep headless or remove for visible browser
+  # options.add_argument('--headless')      # Keep headless or remove for visible browser
   options.add_argument('--disable-gpu')
 
   user_data_dir = Dir.mktmpdir('chrome-profile-')
@@ -46,7 +46,7 @@ puts "Environment: #{env}"
 puts "Base URL: #{CONFIG['base_url']}"
 
 RSpec.configure do |config|
-  # ... existing RSpec config here ...
+  config.include Helpers
 end
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
