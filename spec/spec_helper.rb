@@ -29,17 +29,16 @@ unless File.exist?(config_file)
 end
 CONFIG = YAML.load_file(config_file)
 # Configure Capybara
-Capybara.register_driver :chrome_with_unique_profile do |app|
+Capybara.register_driver :chrome_ci do |app|
   options = Selenium::WebDriver::Chrome::Options.new
-  # options.add_argument('--headless')      # Keep headless or remove for visible browser
+  options.add_argument('--headless')
   options.add_argument('--disable-gpu')
-
-  user_data_dir = Dir.mktmpdir('chrome-profile-')
-  options.add_argument("--user-data-dir=#{user_data_dir}")
+  options.add_argument('--no-sandbox')
+  options.add_argument('--disable-dev-shm-usage')
 
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
-Capybara.default_driver = :chrome_with_unique_profile
+Capybara.default_driver = :chrome_ci
 Capybara.default_max_wait_time = CONFIG['wait_time']
 Capybara.app_host = CONFIG['base_url']
 
