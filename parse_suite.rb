@@ -3,8 +3,7 @@ require 'yaml'
 suite_name = ENV['SUITE_NAME'] || 'smokeUI'
 env = ENV['ENV'] || 'prod'
 
-suites_path = File.expand_path('../github/suites.yml', __dir__)
-suites_config = YAML.load_file(suites_path)
+suites_config = YAML.load_file('suites.yml')
 suite = suites_config['suites'][suite_name]
 
 unless suite && suite['spec']
