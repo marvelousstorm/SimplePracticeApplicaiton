@@ -51,9 +51,6 @@ jobs:
           echo "SUITES=$SUITES" >> $GITHUB_ENV
           echo "CONFIG_FILE=$CONFIG_FILE" >> $GITHUB_ENV
 
-      - name: Start app
-        run: npm start &
-
       - name: Run tests
         env:
           SUITES: ${{ env.SUITES }}
