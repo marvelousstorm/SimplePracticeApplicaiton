@@ -18,6 +18,7 @@ require 'capybara/rspec'
 require 'selenium-webdriver'
 require 'yaml'
 require 'tmpdir'
+require 'site_prism'
 
 Dir[File.join(__dir__, 'support', '**', '*.rb')].sort.each { |file| require file }
 # Load config based on ENV var or default

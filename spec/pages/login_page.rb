@@ -1,7 +1,8 @@
 require 'site_prism'
 
 class LoginPage < SitePrism::Page
-    element :username_field, '#user-name'
-    element :password_field, '#password'
-    element :login_button, 'input[id="login-button"]'
+    set_url '/'
+    element :username_field, '#user_email'
+    element :password_field, '#user_password'
+    element :login_button, '#submitBtn'
 end
