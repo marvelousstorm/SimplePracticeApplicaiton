@@ -6,4 +6,5 @@ class HomePage < SitePrism::Page
     element :logoLink, 'a[class*="logo"]'
     element :createButton, 'button.create'
     element :addClientButton, 'button.button-link', text: 'Create client'
+    element :searchClientInput, 'input[placeholder="Search clients"]'
 end
