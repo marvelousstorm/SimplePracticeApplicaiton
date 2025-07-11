@@ -12,6 +12,7 @@ module Helpers
     login_page.login_button.click
     home_page.load
     expect(home_page).to be_loaded
+    home_page.wait_until_spinner_invisible(wait: 10)
     home_page
   end
 end
