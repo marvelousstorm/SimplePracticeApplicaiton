@@ -22,8 +22,8 @@ require 'site_prism'
 
 Dir[File.join(__dir__, 'support', '**', '*.rb')].sort.each { |file| require file }
 # Load config based on ENV var or default
-env = ENV['TEST_ENV'] || 'stage'
-config_file = File.join(File.dirname(__FILE__), "../config/#{env}.yml")
+ENVIRONMENT = ENV['TEST_ENV'] || 'stage'
+config_file = File.join(File.dirname(__FILE__), "../config/#{ENVIRONMENT}.yml")
 unless File.exist?(config_file)
   raise "Config file not found for environment: #{env}"
 end
@@ -48,8 +48,9 @@ end
 Capybara.default_driver = :chrome_ci
 Capybara.default_max_wait_time = CONFIG['wait_time']
 Capybara.app_host = CONFIG['base_url']
+Capybara.default_max_wait_time = 10
 
-puts "Environment: #{env}"
+puts "Environment: #{ENVIRONMENT}"
 puts "Base URL: #{CONFIG['base_url']}"
 
 RSpec.configure do |config|

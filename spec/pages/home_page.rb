@@ -5,5 +5,5 @@ class HomePage < SitePrism::Page
     element :spinner, 'div[class="div.swal2-container.swal2-backdrop-show"]'
     element :logoLink, 'a[class*="logo"]'
     element :createButton, 'button.create'
-    element :addClientButton, 'button.button-link', text: 'Create Client'
+    element :addClientButton, 'button.button-link', text: 'Create client'
 end

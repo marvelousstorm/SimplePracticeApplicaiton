@@ -1,0 +1,35 @@
+stage:
+  createClientTest:
+    client:
+      type: adult
+      firstName: Cesar
+      lastName: Rosales
+      preferredName: Cesar
+      birthDate: 
+        year: 1999
+        month: July
+        day: 30
+      status: active
+      contact:
+        email: jane.stage@example.com
+        type: home
+        permission: Email OK
+      phone: 555-0000
+
+prod:
+  createClientTest:
+    client:
+      type: adult
+      firstName: Cesar
+      lastName: Rosales
+      preferredName: Cesar
+      birthDate: 
+        year: 1999
+        month: July
+        day: 30
+      status: active
+      contact:
+        email: jane.stage@example.com
+        type: home
+        permission: Email OK
+      phone: 555-0000
