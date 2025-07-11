@@ -17,6 +17,7 @@ require 'webdrivers'
 require 'capybara/rspec'
 require 'selenium-webdriver'
 require 'yaml'
+require 'tmpdir'
 
 
 # Load config based on ENV var or default
@@ -27,7 +28,17 @@ unless File.exist?(config_file)
 end
 CONFIG = YAML.load_file(config_file)
 # Configure Capybara
-Capybara.default_driver = :selenium_chrome
+Capybara.register_driver :chrome_with_unique_profile do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--headless')      # Keep headless or remove for visible browser
+  options.add_argument('--disable-gpu')
+
+  user_data_dir = Dir.mktmpdir('chrome-profile-')
+  options.add_argument("--user-data-dir=#{user_data_dir}")
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+Capybara.default_driver = :chrome_with_unique_profile
 Capybara.default_max_wait_time = CONFIG['wait_time']
 Capybara.app_host = CONFIG['base_url']
 
