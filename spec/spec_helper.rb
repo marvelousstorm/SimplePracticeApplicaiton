@@ -31,10 +31,17 @@ CONFIG = YAML.load_file(config_file)
 # Configure Capybara
 Capybara.register_driver :chrome_ci do |app|
   options = Selenium::WebDriver::Chrome::Options.new
-  options.add_argument('--headless')
-  options.add_argument('--disable-gpu')
-  options.add_argument('--no-sandbox')
-  options.add_argument('--disable-dev-shm-usage')
+
+  if ENV['CI'] == 'true'  # or any other env var you use to detect pipeline
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+  else
+    # Running locally, show browser window (no headless)
+    # Optionally add more args for better local experience
+    options.add_argument('--window-size=1400,1400')
+  end
 
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end

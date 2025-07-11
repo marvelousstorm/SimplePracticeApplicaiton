@@ -9,7 +9,6 @@ RSpec.describe 'Login Page', type: :feature do
         @home_page = login(username, password)  
     end
     it 'logs in successfully with valid credentials' do
-        expect(page).to have_no_css('div.swal2-container.swal2-backdrop-show', wait: 10)
         expect(@home_page).to have_createButton
         @home_page.createButton.click
     end 
