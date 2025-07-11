@@ -58,7 +58,7 @@ jobs:
         run: |
           echo "Running specs at: $SUITES"
           echo "Using environment: $ENV"
-          bundle exec rspec $SUITES --tag env:$ENV
+          bundle exec rspec $SUITES
 
       - name: Upload test artifacts
         if: failure()
