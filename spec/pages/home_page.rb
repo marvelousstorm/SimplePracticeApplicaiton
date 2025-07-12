@@ -8,11 +8,16 @@ class HomePage < SitePrism::Page
     element :addClientButton, 'button.button-link', text: 'Create client'
     element :searchClientInput, 'input[placeholder="Search clients"]'
     def click_create_button
+        wait_until_spinner_invisible
+        wait_until_spinner_disappears
         wait_until_createButton_visible(wait: 10)
         createButton.click
     end
     def click_add_client_button
         wait_until_addClientButton_visible(wait: 10)
         addClientButton.click
+    end
+    def wait_until_spinner_disappears(timeout = 10)
+        has_no_spinner?(wait: timeout)
     end
 end
