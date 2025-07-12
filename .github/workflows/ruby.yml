@@ -38,31 +38,29 @@ jobs:
 
       - name: Install dependencies
         run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            google-chrome-stable \
+            xvfb \
+            libnss3 \
+            libgconf-2-4 \
+            libxi6 \
+            libatk1.0-0 \
+            libgtk-3-0
           gem install bundler
           bundle install
 
-      - name: Parse suite
-        id: parse
-        env:
-          SUITE_NAME: ${{ github.event.inputs.suite_name }}
-          ENV: ${{ github.event.inputs.env }}
-        run: ruby parse_suite.rb
-
-      - name: Start app
-        run: npm start &
+      - name: Start virtual display (Xvfb)
+        run: |
+          Xvfb :99 -screen 0 1920x1080x24 &
+          echo "DISPLAY=:99" >> $GITHUB_ENV
 
       - name: Run tests
+        env:
+          DISPLAY: :99
+          TEST_ENV: ${{ github.event.inputs.env }}
         run: |
           echo "Running specs at: $SUITES"
           echo "Using TEST_ENV: $TEST_ENV"
           echo "Using config file: $CONFIG_FILE"
           bundle exec rspec $SUITES
-
-      - name: Upload test artifacts
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-artifacts
-          path: |
-            tmp/test-results
-            logs/
