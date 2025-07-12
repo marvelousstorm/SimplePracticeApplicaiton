@@ -19,7 +19,7 @@ RSpec.describe 'Login Page', type: :feature do
     after(:all) do
         username = CONFIG['username']
         password = CONFIG['password']
-        @home_page = login(username, password)
+        home_page = login(username, password)
         client_name = "#{@client['firstName']} #{@client['lastName']}"
         deactivate_client(client_name)
     end

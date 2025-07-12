@@ -19,9 +19,12 @@ module Helpers
     home_page
   end
   def createClient(home_page,client)
-    expect(home_page).to have_createButton
-    home_page.createButton.click
-    home_page.addClientButton.click
+    # expect(home_page).to have_createButton
+    # home_page.wait_until_createButton_visible(wait: 10)
+    # home_page.createButton.click
+    home_page.click_create_button
+    home_page.click_add_client_button
+    # home_page.addClientButton.click
     create_client_page = CreateClientPage.new
     expect(create_client_page).to have_createClienttitle
     expect(create_client_page.createClienttitle.text).to eq('Create client')
@@ -36,7 +39,7 @@ module Helpers
     client_page = ClientPage.new
     sidebar_page = SidebarPage.new
     expect(sidebar_page).to have_clients
-    sidebar_page.clients.click
+    sidebar_page.click_clients
     client_page.load
     expect(client_page).to be_loaded
     expect(client_page).to have_searchInput
