@@ -20,15 +20,15 @@ module Helpers
   end
   def createClient(home_page,client)
     expect(home_page).to have_createButton
-    # home_page.createButton.click
-    # home_page.addClientButton.click
-    # create_client_page = CreateClientPage.new
-    # expect(create_client_page).to have_createClienttitle
-    # expect(create_client_page.createClienttitle.text).to eq('Create client')
-    # create_client_page.client_type_input(client['type']).click
-    # create_client_page.firstNameInput.set(client['firstName'])
-    # create_client_page.lastNameInput.set(client['lastName'])
-    # create_client_page.continueButton.click
+    home_page.createButton.click
+    home_page.addClientButton.click
+    create_client_page = CreateClientPage.new
+    expect(create_client_page).to have_createClienttitle
+    expect(create_client_page.createClienttitle.text).to eq('Create client')
+    create_client_page.client_type_input(client['type']).click
+    create_client_page.firstNameInput.set(client['firstName'])
+    create_client_page.lastNameInput.set(client['lastName'])
+    create_client_page.continueButton.click
     client_name = "#{client['firstName']} #{client['lastName']}"
     check_client_created(client_name)
   end
@@ -48,5 +48,8 @@ module Helpers
     sidebar_page = SidebarPage.new
     check_client_created(client)
     client_page.clientStatusButton.click
+    client_page.changeStatusButton('Inactive').click
+    page.refresh
+    expect(client_page).to have_noClientsMessage
   end
 end

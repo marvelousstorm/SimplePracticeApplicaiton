@@ -5,4 +5,8 @@ class ClientPage < SitePrism::Page
         find('a.record-name', text: client_name)
     end
     element :clientStatusButton, 'button[class*="active"]'
+    def changeStatusButton(stauts)
+        find('button', text: stauts)
+    end
+    element :noClientsMessage, 'div[class*="empty"]'
 end
