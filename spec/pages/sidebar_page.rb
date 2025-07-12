@@ -2,6 +2,7 @@ class SidebarPage < SitePrism::Page
     element :clients, 'a[aria-label="Clients"]'
     element :spinner, 'div[class*="backdrop-show"]'
     def click_clients
+        wait_for_spinner_to_disappear
         wait_until_clients_visible(wait: 10)
         clients.click
     end
