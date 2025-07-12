@@ -1,5 +1,5 @@
 class SidebarPage < SitePrism::Page
-    element :clients, 'a[aria-label="Clients"]'
+    element :clients, 'a[aria-label="Clients"] span', text: 'Clients'
     element :spinner, 'div.swal2-container.swal2-backdrop-show'
     def click_clients
         sleep 10
