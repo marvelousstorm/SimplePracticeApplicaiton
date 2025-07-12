@@ -14,7 +14,6 @@ RSpec.describe 'Login Page', type: :feature do
     end
     it 'Succesfully create client' do
         createClient(@home_page,@client)
-        sleep 5
     end 
     after(:all) do
         username = CONFIG['username']
