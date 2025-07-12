@@ -33,7 +33,7 @@ Capybara.register_driver :chrome_ci do |app|
   options = Selenium::WebDriver::Chrome::Options.new
 
   if ENV['CI'] == 'true'  # or any other env var you use to detect pipeline
-    options.add_argument('--headless')
+    options.add_argument('--headless=chrome')
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
