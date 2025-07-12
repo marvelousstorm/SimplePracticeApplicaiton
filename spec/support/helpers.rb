@@ -40,6 +40,7 @@ module Helpers
     sidebar_page = SidebarPage.new
     expect(sidebar_page).to have_clients
     sidebar_page.wait_for_spinner_to_disappear
+    sleep 5
     sidebar_page.click_clients
     client_page.load
     expect(client_page).to be_loaded
