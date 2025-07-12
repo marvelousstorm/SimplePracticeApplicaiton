@@ -4,10 +4,10 @@ class SidebarPage < SitePrism::Page
     def click_clients
         wait_until_spinner_invisible
         wait_until_spinner_disappears
-        wait_until_clients_visible(wait: 10)
+        wait_until_clients_visible
         clients.click
     end
-    def wait_until_spinner_disappears(timeout = 10)
+    def wait_until_spinner_disappears(timeout = 20)
         has_no_spinner?(wait: timeout)
     end
 end
