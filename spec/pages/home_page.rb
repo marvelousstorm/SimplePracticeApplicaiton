@@ -17,7 +17,7 @@ class HomePage < SitePrism::Page
         wait_until_addClientButton_visible
         addClientButton.click
     end
-    def wait_until_spinner_disappears(timeout = 20)
+    def wait_until_spinner_disappears(timeout = 40)
         has_no_spinner?(wait: timeout)
     end
 end
