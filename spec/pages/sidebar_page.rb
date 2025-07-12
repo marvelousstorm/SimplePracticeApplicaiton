@@ -1,5 +1,5 @@
 class SidebarPage < SitePrism::Page
-    element :clients, 'a[aria-label="Clients"] span', text: 'Clients'
+    element :clients, 'a[aria-label="Clients"]'
     element :spinner, 'div.swal2-container.swal2-backdrop-show'
     def click_clients
         wait_for_modal_to_disappear
@@ -10,17 +10,17 @@ class SidebarPage < SitePrism::Page
         has_no_spinner?(wait: timeout)
     end
     def wait_for_modal_to_disappear(timeout: 10)
-    Capybara.using_wait_time(timeout) do
-      page.document.synchronize do
-        visible = page.evaluate_script(<<~JS)
-          (function() {
-            var el = document.querySelector('.swal2-container');
-            return el && el.offsetParent !== null;
-          })();
-        JS
+  Capybara.using_wait_time(timeout) do
+    page.document.synchronize do
+      visible = page.evaluate_script(<<~JS)
+        (function() {
+          var el = document.querySelector('div.swal2-container.swal2-backdrop-show');
+          return el && el.offsetParent !== null;
+        })();
+      JS
 
-        raise 'SweetAlert2 is still visible' if visible
-      end
+      raise 'SweetAlert2 modal still visible' if visible
     end
   end
+end
 end
