@@ -1,4 +1,4 @@
-name: Run Ruby Tests with Video Recording
+name: Run Ruby Tests
 
 on:
   workflow_dispatch:
@@ -36,51 +36,33 @@ jobs:
         with:
           ruby-version: '3.1'
 
-      - name: Install dependencies (Chrome, Xvfb, ffmpeg, libs)
+      - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            google-chrome-stable \
-            xvfb \
-            ffmpeg \
-            libnss3 \
-            libxi6 \
-            libatk1.0-0 \
-            libgtk-3-0
           gem install bundler
           bundle install
 
-      - name: Start virtual display (Xvfb) and record video
-        run: |
-          # Start Xvfb on display :99
-          Xvfb :99 -screen 0 1920x1080x24 &
-          echo "DISPLAY=:99" >> $GITHUB_ENV
-          # Give Xvfb some time to start
-          sleep 3
-          # Start ffmpeg to record the display in background
-          ffmpeg -y -video_size 1920x1080 -framerate 15 -f x11grab -i :99 \
-            -preset ultrafast -pix_fmt yuv420p output.mp4 &
-          echo $! > ffmpeg_pid.txt
-          sleep 3
+      - name: Parse suite
+        id: parse
+        env:
+          SUITE_NAME: ${{ github.event.inputs.suite_name }}
+          ENV: ${{ github.event.inputs.env }}
+        run: ruby parse_suite.rb
+
+      - name: Start app
+        run: npm start &
 
       - name: Run tests
-        env:
-          DISPLAY: :99
-          TEST_ENV: ${{ github.event.inputs.env }}
         run: |
           echo "Running specs at: $SUITES"
           echo "Using TEST_ENV: $TEST_ENV"
           echo "Using config file: $CONFIG_FILE"
           bundle exec rspec $SUITES
 
-      - name: Stop ffmpeg recording
-        run: |
-          kill $(cat ffmpeg_pid.txt)
-          sleep 5
-
-      - name: Upload recorded video
-        if: always()
+      - name: Upload test artifacts
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-video
-          path: output.mp4
+          name: test-artifacts
+          path: |
+            tmp/test-results
+            logs/
