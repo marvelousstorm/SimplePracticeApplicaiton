@@ -19,7 +19,7 @@ class HomePage < SitePrism::Page
         addClientButton.click
     end
     def timezoneModalPresent
-        if has_spinner?(wait: 10)
+        if has_spinner?(wait: 15)
             notNowButton.click
         end
     end
