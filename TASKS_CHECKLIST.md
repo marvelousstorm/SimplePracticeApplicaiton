@@ -1,37 +1,67 @@
 # Tasks Feature - Happy Path Test Checklist
-This document contains a checklist of high-level test scenarios for the "Tasks" feature
+
+This document outlines a set of high-level test scenarios derived through exploratory testing of the "Tasks" feature. The focus is exclusively on **happy path** flows and expected positive outcomes.
+
+---
 
 ## Methodology
 
-We used **exploratory testing** techniques to interact with the Tasks feature, identify core functionalities, and derive test scenarios that reflect successful usage.
+Exploratory testing techniques were applied to evaluate the "Tasks" feature's behavior under normal usage. Functional areas were identified and broken down into discrete flows to define structured test scenarios.
 
-### 1. Create Task
-- [ ] Create a new task with a valid title and description
-- [ ] Create a task with optional fields (due date, assignee, tags)
-- [ ] Verify that a success confirmation appears after creating a task
-- [ ] Ensure newly created task appears in the main task list
+---
 
-### 2. View Task List
-- [ ] Load the task list successfully
-- [ ] Display correct task details (title, due date, assignee, etc.)
-- [ ] Tasks are sorted by the expected default (e.g., creation date)
+## Preconditions
 
-### 3. Edit Task
-- [ ] Update task title and verify changes persist
-- [ ] Edit task description and confirm update
-- [ ] Change due date and confirm it is updated
-- [ ] Reassign the task to another user and verify change
+- User is successfully logged into the SimplePractice platform.
+- User has navigated to the **Tasks** section from the left-hand sidebar.
 
-### 4. Complete Task
-- [ ] Mark a task as complete
-- [ ] Verify the task moves to the “Completed” section (if applicable)
-- [ ] Completion timestamp is saved/displayed (if available)
+---
 
-### 5. Delete Task (If Supported)
-- [ ] Delete a task and confirm it is removed from the task list
-- [ ] Receive a success or confirmation message on delete
+## 1. Add Task
 
-### 6. Additional Attributes
-- [ ] Add and verify due date on task creation or update
-- [ ] Add tags and verify they display correctly
-- [ ] Set and update task priority
+- [ ] Click the **"Add Task"** button – the **Create Task** form should appear as a modal or side panel.
+- [ ] Fill out all required and optional fields with valid data.
+- [ ] Click the **"Save"** button.
+- [ ] Verify that the new task is successfully added and visible in the task list.
+
+---
+
+## 2. Edit Task
+
+- [ ] Click the **right arrow (expand icon)** on an existing task to open the **Edit Task** form.
+- [ ] Modify task fields (e.g., title, description) with valid inputs.
+- [ ] Change the task's due date.
+- [ ] Click the **"Save"** button.
+- [ ] Confirm that the updated task information is accurately reflected in the task list.
+
+---
+
+## 3. Complete Task
+
+- [ ] Click the **completion checkbox** (circle icon) on a task.
+- [ ] Verify that the task is removed from the active task list.
+- [ ] Apply the **"Completed"** task filter.
+- [ ] Ensure the completed task appears in the **Completed Tasks** section.
+
+---
+
+## 4. Search Task
+
+- [ ] Enter a valid task name into the **search input field** and press Enter.
+- [ ] Verify that the matching task(s) appear in the search results.
+
+---
+
+## 5. Delete Task
+
+- [ ] Click the **right arrow** on the task to open the **Edit Task** form.
+- [ ] Click the **"Delete Task"** button – a confirmation dialog should appear.
+- [ ] Confirm by clicking the **"Delete"** button.
+- [ ] Validate that the task has been removed from the task list.
+
+---
+
+## Notes
+
+- This checklist only covers **happy path scenarios** with valid inputs and expected system behavior.
+- Edge cases, validations, and negative testing scenarios are out of scope for this phase.
