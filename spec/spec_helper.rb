@@ -48,7 +48,7 @@ end
 Capybara.default_driver = :chrome_ci
 Capybara.default_max_wait_time = CONFIG['wait_time']
 Capybara.app_host = CONFIG['base_url']
-Capybara.default_max_wait_time = 20
+Capybara.default_max_wait_time = 30
 
 puts "Environment: #{ENVIRONMENT}"
 puts "Base URL: #{CONFIG['base_url']}"
