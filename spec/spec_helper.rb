@@ -48,13 +48,21 @@ end
 Capybara.default_driver = :chrome_ci
 Capybara.default_max_wait_time = CONFIG['wait_time']
 Capybara.app_host = CONFIG['base_url']
-Capybara.default_max_wait_time = 300
+Capybara.default_max_wait_time = 20
 
 puts "Environment: #{ENVIRONMENT}"
 puts "Base URL: #{CONFIG['base_url']}"
 
 RSpec.configure do |config|
   config.include Helpers
+  config.after(:each) do |example|
+    if example.exception
+      timestamp = Time.now.strftime('%Y-%m-%d_%H-%M-%S')
+      path = "tmp/test-results/screenshots/#{example.full_description.parameterize}_#{timestamp}.png"
+      Capybara.page.save_screenshot(path, full: true)
+      puts "Saved screenshot: #{path}"
+    end
+  end
 end
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
