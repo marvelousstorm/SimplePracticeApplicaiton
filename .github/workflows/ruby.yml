@@ -1,5 +1,7 @@
 name: Run Ruby Tests
-
+env:
+  CI: true
+  
 on:
   workflow_dispatch:
     inputs:
