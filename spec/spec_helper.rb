@@ -37,6 +37,7 @@ Capybara.register_driver :chrome_ci do |app|
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
+    options.add_emulation(timezoneId: 'America/Mexico_City')
   else
     # Running locally, show browser window (no headless)
     # Optionally add more args for better local experience
@@ -48,13 +49,22 @@ end
 Capybara.default_driver = :chrome_ci
 Capybara.default_max_wait_time = CONFIG['wait_time']
 Capybara.app_host = CONFIG['base_url']
-Capybara.default_max_wait_time = 300
+Capybara.default_max_wait_time = 30
 
 puts "Environment: #{ENVIRONMENT}"
 puts "Base URL: #{CONFIG['base_url']}"
 
 RSpec.configure do |config|
   config.include Helpers
+  config.after(:each) do |example|
+    if example.exception
+      timestamp = Time.now.strftime('%Y-%m-%d_%H-%M-%S')
+      safe_name = example.full_description.downcase.gsub(/[^a-z0-9]+/, '-').gsub(/^-|-$/, '')
+      path = "tmp/test-results/screenshots/#{safe_name}_#{timestamp}.png"
+      Capybara.page.save_screenshot(path)
+      puts "Saved screenshot: #{path}"
+    end
+  end
 end
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
