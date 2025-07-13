@@ -9,8 +9,6 @@ class HomePage < SitePrism::Page
     element :searchClientInput, 'input[placeholder="Search clients"]'
     element :notNowButton, 'button', text: 'Not now'
     def click_create_button
-        # wait_until_spinner_invisible
-        # wait_until_spinner_disappears
         timezoneModalPresent
         wait_until_createButton_visible
         createButton.click
@@ -25,7 +23,4 @@ class HomePage < SitePrism::Page
             notNowButton.click
         end
     end
-    # def wait_until_spinner_disappears(timeout = 40)
-    #     has_no_spinner?(wait: timeout)
-    # end
 end
