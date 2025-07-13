@@ -57,6 +57,7 @@ RSpec.configure do |config|
   config.include Helpers
   config.after(:each) do |example|
     if example.exception
+      timestamp = Time.now.strftime('%Y-%m-%d_%H-%M-%S')
       safe_name = example.full_description.downcase.gsub(/[^a-z0-9]+/, '-').gsub(/^-|-$/, '')
       path = "tmp/test-results/screenshots/#{safe_name}_#{timestamp}.png"
       Capybara.page.save_screenshot(path, full: true)
