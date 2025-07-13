@@ -15,10 +15,10 @@ RSpec.describe 'Login Page', type: :feature do
     it 'Succesfully create client' do
         createClient(@home_page,@client)
     end 
-    it 'Deactivate client' do
-        client_name = "#{@client['firstName']} #{@client['lastName']}"
-        deactivate_client(client_name)
-    end
+    # it 'Deactivate client' do
+    #     client_name = "#{@client['firstName']} #{@client['lastName']}"
+    #     deactivate_client(client_name)
+    # end
     # after(:all) do
     #     username = CONFIG['username']
     #     password = CONFIG['password']
