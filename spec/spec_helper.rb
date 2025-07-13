@@ -37,6 +37,7 @@ Capybara.register_driver :chrome_ci do |app|
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
+    options.add_emulation(timezoneId: 'America/Mexico_City')
   else
     # Running locally, show browser window (no headless)
     # Optionally add more args for better local experience
