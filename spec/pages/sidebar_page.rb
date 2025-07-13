@@ -1,6 +1,6 @@
 class SidebarPage < SitePrism::Page
     element :clients, 'a[aria-label="Clients"] svg'
-    element :spinner, 'div.swal2-container.swal2-backdrop-show'
+    element :spinner, 'div[class*="backdrop-show"]'
     element :notNowButton, 'button', text: 'Not now'
 
     def click_clients
@@ -9,7 +9,7 @@ class SidebarPage < SitePrism::Page
         clients.click
     end
     def timezoneModalPresent
-        if has_spinner?(wait: 10)
+        if has_spinner?(wait: 5)
             notNowButton.click
         end
     end
