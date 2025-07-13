@@ -61,7 +61,5 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-artifacts
-          path: |
-            tmp/test-results
-            logs/
+          name: screenshots
+          path: tmp/test-results/screenshots/
