@@ -22,28 +22,35 @@ require 'site_prism'
 
 Dir[File.join(__dir__, 'support', '**', '*.rb')].sort.each { |file| require file }
 # Load config based on ENV var or default
-env = ENV['TEST_ENV'] || 'stage'
-config_file = File.join(File.dirname(__FILE__), "../config/#{env}.yml")
+ENVIRONMENT = ENV['TEST_ENV'] || 'stage'
+config_file = File.join(File.dirname(__FILE__), "../config/#{ENVIRONMENT}.yml")
 unless File.exist?(config_file)
   raise "Config file not found for environment: #{env}"
 end
 CONFIG = YAML.load_file(config_file)
 # Configure Capybara
-Capybara.register_driver :chrome_with_unique_profile do |app|
+Capybara.register_driver :chrome_ci do |app|
   options = Selenium::WebDriver::Chrome::Options.new
-  # options.add_argument('--headless')      # Keep headless or remove for visible browser
-  options.add_argument('--disable-gpu')
 
-  user_data_dir = Dir.mktmpdir('chrome-profile-')
-  options.add_argument("--user-data-dir=#{user_data_dir}")
+  if ENV['CI'] == 'true'  # or any other env var you use to detect pipeline
+    options.add_argument('--headless=chrome')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+  else
+    # Running locally, show browser window (no headless)
+    # Optionally add more args for better local experience
+    options.add_argument('--window-size=1400,1400')
+  end
 
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
-Capybara.default_driver = :chrome_with_unique_profile
+Capybara.default_driver = :chrome_ci
 Capybara.default_max_wait_time = CONFIG['wait_time']
 Capybara.app_host = CONFIG['base_url']
+Capybara.default_max_wait_time = 300
 
-puts "Environment: #{env}"
+puts "Environment: #{ENVIRONMENT}"
 puts "Base URL: #{CONFIG['base_url']}"
 
 RSpec.configure do |config|
