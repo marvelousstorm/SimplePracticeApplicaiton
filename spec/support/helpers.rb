@@ -10,18 +10,12 @@ module Helpers
     home_page = HomePage.new
     login_page.load
     expect(login_page).to be_loaded
-    Capybara.execute_script <<~JS
-    const original = Intl.DateTimeFormat.prototype.resolvedOptions;
-    Intl.DateTimeFormat.prototype.resolvedOptions = function() {
-      return { timeZone: "America/Mexico_City" };
-    };
-    JS
     login_page.username_field.set(user)
     login_page.password_field.set(password)
     login_page.login_button.click
     home_page.load
     expect(home_page).to be_loaded
-    home_page.wait_until_spinner_invisible
+    home_page.timezoneModalPresent if ENV['CI'] == 'true'
     home_page
   end
   def createClient(home_page,client)
