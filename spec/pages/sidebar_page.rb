@@ -4,7 +4,7 @@ class SidebarPage < SitePrism::Page
     element :notNowButton, 'button', text: 'Not now'
 
     def click_clients
-        timezoneModalPresent
+        timezoneModalPresent if ENV['CI'] == 'true'
         wait_until_clients_visible
         clients.click
     end
