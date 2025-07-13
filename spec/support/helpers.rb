@@ -35,7 +35,6 @@ module Helpers
     client_page = ClientPage.new
     sidebar_page = SidebarPage.new
     expect(sidebar_page).to have_clients
-    # sleep 5
     sidebar_page.click_clients
     client_page.load
     expect(client_page).to be_loaded
@@ -50,7 +49,6 @@ module Helpers
     client_page.clientStatusButton.click
     client_page.changeStatusButton('Inactive').click
     page.refresh
-    # sidebar_page.timezoneModalPresent
     expect(client_page).to have_noClientsMessage
   end
 end
