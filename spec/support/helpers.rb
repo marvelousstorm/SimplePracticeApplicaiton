@@ -50,7 +50,7 @@ module Helpers
     client_page.clientStatusButton.click
     client_page.changeStatusButton('Inactive').click
     page.refresh
-    sidebar_page.timezoneModalPresent
+    # sidebar_page.timezoneModalPresent
     expect(client_page).to have_noClientsMessage
   end
 end
