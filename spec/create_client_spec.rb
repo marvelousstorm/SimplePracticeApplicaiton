@@ -1,7 +1,7 @@
 require_relative 'spec_helper'
 require_relative './pages/login_page'
 
-RSpec.describe 'Login Page', type: :feature do
+RSpec.describe 'Create Client', type: :feature do
     login_page = LoginPage.new
     before(:all) do
         data = YAML.load_file('spec/fixtures/data.yml')
